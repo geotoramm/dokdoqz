@@ -1,0 +1,2036 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>5일간 열리는 작은 독도박물관</title>
+  <style>
+    :root {
+      --ocean-dark: #0f2942;
+      --ocean-main: #1d4ed8;
+      --ocean-light: #dbeafe;
+      --ocean-soft: #eff6ff;
+      --mugunghwa-pink: #ec4899;
+      --text-dark: #1e293b;
+      --text-muted: #64748b;
+      --white: #ffffff;
+      --danger: #ef4444;
+      --success: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(160deg, #0f2942 0%, #1e3a8a 50%, #1e40af 100%);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      overflow-x: hidden;
+    }
+
+    /* 상단 헤더 바 */
+    .top-bar {
+      width: 100%;
+      max-width: 960px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      color: var(--white);
+    }
+
+    .badge-title {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .icon-btn {
+      background: rgba(255, 255, 255, 0.15);
+      color: var(--white);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .icon-btn:active {
+      transform: scale(0.96);
+      background: rgba(255, 255, 255, 0.28);
+    }
+
+    /* 메인 컨테이너 */
+    .app-container {
+      width: 94%;
+      max-width: 920px;
+      background: var(--white);
+      border-radius: 28px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+      padding: 32px;
+      margin-bottom: 36px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .screen {
+      display: none;
+      animation: fadeIn 0.35s ease;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 히어로 영역 */
+    .hero-box {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      background: linear-gradient(135deg, #eff6ff 0%, #fce7f3 100%);
+      border: 2px solid #bfdbfe;
+      border-radius: 24px;
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+
+    .hero-text {
+      flex: 1 1 360px;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      background: var(--ocean-main);
+      color: var(--white);
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    .hero-text h1 {
+      margin: 0 0 12px 0;
+      font-size: 2rem;
+      color: var(--ocean-dark);
+      line-height: 1.25;
+      word-break: keep-all;
+    }
+
+    .goal-card {
+      background: rgba(255, 255, 255, 0.9);
+      border-left: 5px solid var(--ocean-main);
+      padding: 14px 16px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      line-height: 1.55;
+      color: #334155;
+      word-break: keep-all;
+    }
+
+    /* 몽련이 독도_2.jpg 전용 원본 비율 프레임 (흰색 배경) */
+    .hero-character {
+      flex: 0 0 250px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin: 0 auto;
+    }
+
+    .mongryeoni-frame {
+      width: 240px;
+      min-height: 226px;
+      border-radius: 24px;
+      background: #ffffff; /* 몽련이 독도_2.jpg 흰색 배경과 완벽 일치 */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 10px 26px rgba(15, 41, 66, 0.16);
+      border: 3px solid #ffffff;
+      padding: 6px;
+      position: relative;
+    }
+
+    /* 이미지가 찌그러지지 않도록 원본 비율 그대로 표시 */
+    .mongryeoni-frame img {
+      width: 100%;
+      height: auto;
+      max-height: 220px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .load-image-guide {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+      color: var(--ocean-dark);
+      background: #f8fafc;
+      border: 2px dashed #93c5fd;
+      border-radius: 18px;
+      width: 100%;
+      min-height: 210px;
+    }
+
+    .character-caption {
+      margin-top: 10px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--ocean-dark);
+    }
+
+    /* 전시 요약 카드 그리드 */
+    .exhibit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .exhibit-card {
+      background: var(--ocean-soft);
+      border: 1px solid #dbeafe;
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .exhibit-card h3 {
+      margin: 0 0 6px 0;
+      font-size: 1rem;
+      color: var(--ocean-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .exhibit-card p {
+      margin: 0;
+      font-size: 0.86rem;
+      color: #475569;
+      line-height: 1.45;
+      word-break: keep-all;
+    }
+
+    /* 입력 폼 영역 */
+    .form-box {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 20px;
+      padding: 24px;
+    }
+
+    .form-box h2 {
+      margin: 0 0 16px 0;
+      font-size: 1.25rem;
+      color: var(--ocean-dark);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text-dark);
+    }
+
+    .form-group input {
+      padding: 14px 16px;
+      font-size: 1.05rem;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus {
+      border-color: var(--ocean-main);
+    }
+
+    /* 버튼 공통 */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 16px 28px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      border-radius: 16px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: var(--white);
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+    }
+
+    .btn-pink {
+      background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+      color: var(--white);
+      box-shadow: 0 8px 20px rgba(236, 72, 153, 0.3);
+    }
+
+    .btn-secondary {
+      background: #e2e8f0;
+      color: #334155;
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: var(--white);
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-full {
+      width: 100%;
+    }
+
+    /* 퀴즈 화면 */
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .progress-bar-wrap {
+      width: 100%;
+      height: 12px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--ocean-main), var(--mugunghwa-pink));
+      width: 20%;
+      transition: width 0.3s ease;
+    }
+
+    .question-category {
+      display: inline-block;
+      background: #dbeafe;
+      color: var(--ocean-main);
+      font-weight: 800;
+      font-size: 0.9rem;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+
+    .question-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      line-height: 1.45;
+      color: var(--ocean-dark);
+      margin: 0 0 20px 0;
+      word-break: keep-all;
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .option-btn {
+      width: 100%;
+      text-align: left;
+      padding: 16px 20px;
+      border-radius: 16px;
+      border: 2px solid #cbd5e1;
+      background: var(--white);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all 0.2s;
+      word-break: keep-all;
+    }
+
+    .option-num {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      color: var(--ocean-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .option-btn.correct {
+      border-color: var(--success);
+      background: #ecfdf5;
+      color: #065f46;
+    }
+
+    .option-btn.correct .option-num {
+      background: var(--success);
+      color: var(--white);
+    }
+
+    .option-btn.wrong {
+      border-color: var(--danger);
+      background: #fef2f2;
+      color: #991b1b;
+    }
+
+    .option-btn.wrong .option-num {
+      background: var(--danger);
+      color: var(--white);
+    }
+
+    .explanation-box {
+      display: none;
+      background: #f8fafc;
+      border-left: 5px solid var(--ocean-main);
+      padding: 16px 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      font-size: 0.98rem;
+      line-height: 1.55;
+      word-break: keep-all;
+    }
+
+    /* 결과 화면 */
+    .result-card {
+      text-align: center;
+      padding: 24px 16px;
+    }
+
+    .score-circle {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1d4ed8, #ec4899);
+      color: var(--white);
+      box-shadow: 0 12px 30px rgba(29, 78, 216, 0.3);
+    }
+
+    .score-circle .percent {
+      font-size: 2.5rem;
+      font-weight: 900;
+    }
+
+    .score-circle .count {
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    .reward-choice-box {
+      background: linear-gradient(135deg, #fdf2f8 0%, #eff6ff 100%);
+      border: 2px dashed var(--mugunghwa-pink);
+      border-radius: 20px;
+      padding: 24px;
+      margin: 24px 0;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    /* 인생네컷 촬영 화면 */
+    .booth-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 768px) {
+      .booth-layout {
+        grid-template-columns: 1fr;
+      }
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .camera-stage {
+      background: #0f172a;
+      border-radius: 22px;
+      padding: 16px;
+      text-align: center;
+      color: var(--white);
+      position: relative;
+    }
+
+    .video-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: #1e293b;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    video#cameraFeed {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scaleX(-1);
+    }
+
+    .countdown-overlay {
+      position: absolute;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      font-weight: 900;
+      color: var(--white);
+      background: rgba(0, 0, 0, 0.35);
+      text-shadow: 0 4px 20px rgba(0,0,0,0.6);
+    }
+
+    .flash-overlay {
+      position: absolute;
+      inset: 0;
+      background: var(--white);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s;
+    }
+
+    .thumbs-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .thumb-slot {
+      aspect-ratio: 4 / 3;
+      background: #334155;
+      border: 2px solid #475569;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      cursor: pointer;
+    }
+
+    .thumb-slot.active-slot {
+      border-color: var(--mugunghwa-pink);
+      box-shadow: 0 0 0 2px var(--mugunghwa-pink);
+    }
+
+    .thumb-slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .preview-stage {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 22px;
+      padding: 18px;
+      text-align: center;
+    }
+
+    canvas#photoCanvas {
+      width: 100%;
+      max-width: 380px;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      background: var(--white);
+    }
+
+    .theme-selector {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin: 12px 0;
+    }
+
+    .theme-chip {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 2px solid #cbd5e1;
+      background: var(--white);
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .theme-chip.active {
+      border-color: var(--ocean-main);
+      background: var(--ocean-light);
+      color: var(--ocean-dark);
+    }
+
+    /* 모달 공통 */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--white);
+      width: 100%;
+      max-width: 780px;
+      max-height: 88vh;
+      border-radius: 24px;
+      padding: 28px;
+      overflow-y: auto;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #f1f5f9;
+    }
+
+    .modal-header h2 {
+      margin: 0;
+      font-size: 1.35rem;
+      color: var(--ocean-dark);
+    }
+
+    table.records-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      margin-top: 12px;
+    }
+
+    table.records-table th,
+    table.records-table td {
+      border: 1px solid #e2e8f0;
+      padding: 10px 12px;
+      text-align: center;
+    }
+
+    table.records-table th {
+      background: #f1f5f9;
+      color: var(--ocean-dark);
+      font-weight: 700;
+    }
+
+    .notice-pill {
+      background: #fef3c7;
+      color: #92400e;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 숨겨진 공통 이미지 파일 업로더 (메인 화면 & 교사 설정 공용) -->
+  <input type="file" id="globalMongryeoniInput" accept="image/*" style="display: none;" onchange="uploadCustomMongryeoni(event)" />
+
+  <!-- 상단 네비게이션 바 -->
+  <header class="top-bar">
+    <div class="badge-title">
+      🇰🇷 5일간 열리는 작은 독도박물관
+    </div>
+    <div class="top-actions">
+      <button class="icon-btn" onclick="openModal('docentModal')">📖 전시 핵심 요약</button>
+      <button class="icon-btn" onclick="openModal('adminModal')">📊 참가 명단 / 교사 설정 (<span id="topRecordCount">0</span>명)</button>
+    </div>
+  </header>
+
+  <main class="app-container">
+
+    <!-- [화면 1] 시작 및 학번 입력 화면 -->
+    <section id="screenStart" class="screen active">
+      <div class="hero-box">
+        <div class="hero-text">
+          <span class="hero-tag">독도 전시 체험형 학습 웹앱</span>
+          <h1>5일간 열리는<br/>작은 독도박물관 🌊🌸</h1>
+          <div class="goal-card">
+            <strong>🎯 우리의 학습 목표</strong><br/>
+            독도의 지리적 특징과 역사적 기록을 바탕으로 영토로서의 중요성을 이해하고, 국제법적 근거를 통해 독도의 영유권을 설명할 수 있다. 이를 통해 독도 문제를 국제 정세와 연결지어 분석하고, 평화와 정의에 기여할 수 있는 실천 방안을 모색한다.
+          </div>
+        </div>
+
+        <!-- 원본 '몽련이 독도_2.jpg' 캐릭터 표시 영역 (왜곡 0%, 흰색 배경) -->
+        <div class="hero-character">
+          <div class="mongryeoni-frame" id="heroCharacterBox" onclick="triggerMongryeoniSelect()" title="터치하여 '몽련이 독도_2.jpg' 원본 이미지를 등록하거나 변경할 수 있습니다">
+            <img id="heroMongryeoniImg" alt="몽련이 독도 캐릭터" style="display: none;" />
+            <div id="heroLoadGuide" class="load-image-guide">
+              <span style="font-size: 2.2rem; margin-bottom: 8px;">🖼️</span>
+              <strong style="font-size: 0.95rem; color: var(--ocean-main);">여기를 터치하여<br/>'몽련이 독도_2.jpg'<br/>원본 그림을 불러오세요</strong>
+              <span style="font-size: 0.78rem; color: #64748b; margin-top: 6px;">(최초 1회 선택 시 태블릿에 영구 저장)</span>
+            </div>
+          </div>
+          <div class="character-caption">✨ 몽련이와 함께하는 독도 탐험 ✨</div>
+        </div>
+      </div>
+
+      <!-- 전시 4대 영역 요약 -->
+      <div class="exhibit-grid">
+        <div class="exhibit-card">
+          <h3>🏝️ 독도 지형·모형</h3>
+          <p>동도·서도와 89개 부속 도서로 이루어진 신생대 화산섬, 해저 약 2,000m 거대 해산의 지리적 가치</p>
+        </div>
+        <div class="exhibit-card">
+          <h3>📜 영유권 역사·국제법</h3>
+          <p>삼국사기(512), 세종실록 지리지, 대한제국 칙령 제41호(1900), 일본 태정관 지령(1877)의 명확한 증거</p>
+        </div>
+        <div class="exhibit-card">
+          <h3>💎 독도 산업·생물</h3>
+          <p>한류와 난류가 만나는 조경수역 황금어장, 미래 청정에너지 '가스하이드레이트'와 고유 생태계</p>
+        </div>
+        <div class="exhibit-card">
+          <h3>🕊️ 국제 정세·평화 실천</h3>
+          <p>역사·국제법적 근거에 기반한 논리적 설명과 동북아 평화·정의 실현을 위한 세계시민의 자세</p>
+        </div>
+      </div>
+
+      <!-- 참가 학생 학번 등록 -->
+      <div class="form-box">
+        <h2>✏️ 참가자 정보 입력</h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="studentIdInput">학번 (필수)</label>
+            <input type="text" id="studentIdInput" placeholder="예: 20315" inputmode="text" autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label for="studentNameInput">이름 (선택)</label>
+            <input type="text" id="studentNameInput" placeholder="예: 김독도" autocomplete="off" />
+          </div>
+          <div class="form-group full">
+            <label for="studentPledgeInput">🕊️ 독도 수호와 평화·정의를 위한 나의 한 줄 실천 다짐 (인생네컷에 함께 인쇄됩니다)</label>
+            <input type="text" id="studentPledgeInput" placeholder="예: 역사적 근거로 독도를 세계에 평화롭게 알리겠습니다!" autocomplete="off" />
+          </div>
+        </div>
+        <button class="btn btn-primary btn-full" onclick="startQuiz()">
+          🚀 전시 퀴즈 5문제 도전하기! (80% 이상 통과 시 인생네컷 촬영)
+        </button>
+      </div>
+    </section>
+
+    <!-- [화면 2] 5문제 퀴즈 화면 -->
+    <section id="screenQuiz" class="screen">
+      <div class="quiz-header">
+        <span style="font-weight: 800; color: var(--ocean-dark);" id="quizStudentBadge">참가자: -</span>
+        <span style="font-weight: 800; color: var(--ocean-main);" id="quizStepText">문제 1 / 5</span>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="quizProgressBar"></div>
+      </div>
+
+      <span class="question-category" id="qCategory">영역</span>
+      <h2 class="question-title" id="qTitle">질문 내용</h2>
+
+      <div class="options-list" id="qOptions"></div>
+
+      <div class="explanation-box" id="qExplanation"></div>
+
+      <div style="display: flex; justify-content: flex-end;">
+        <button class="btn btn-primary" id="nextQuestionBtn" style="display: none;" onclick="nextQuestion()">
+          다음 문제로 이동 ➡️
+        </button>
+      </div>
+    </section>
+
+    <!-- [화면 3] 퀴즈 결과 및 인생네컷 선택 화면 -->
+    <section id="screenResult" class="screen">
+      <div class="result-card">
+        <div class="score-circle">
+          <div class="percent" id="resultPercent">100%</div>
+          <div class="count" id="resultCount">5문제 중 5개 정답</div>
+        </div>
+
+        <h2 id="resultHeadline" style="font-size: 1.7rem; color: var(--ocean-dark); margin-bottom: 8px;"></h2>
+        <p id="resultSubtext" style="color: var(--text-muted); font-size: 1.05rem; margin-bottom: 16px;"></p>
+
+        <div class="notice-pill" style="display: inline-block;">
+          ✅ 학번(<strong id="savedIdText"></strong>) 참가 기록이 태블릿 내부 명단에 안전하게 저장되었습니다!
+        </div>
+
+        <!-- 80% 이상 통과 시 노출되는 인생네컷 선택 박스 -->
+        <div class="reward-choice-box" id="photoRewardBox" style="display: none;">
+          <h3 style="margin: 0 0 8px 0; color: var(--mugunghwa-pink); font-size: 1.35rem;">
+            📸 축하합니다! '몽련이와 함께 독도여행 인생네컷' 촬영권 획득!
+          </h3>
+          <p style="margin: 0 0 18px 0; color: #475569; font-size: 0.98rem;">
+            정답률 80% 이상을 달성하여 몽련이 독도 프레임으로 인생네컷을 촬영할 수 있습니다.<br/>
+            (원하지 않는 경우 촬영하지 않고 바로 참가를 완료할 수 있습니다.)
+          </p>
+          <div class="btn-group">
+            <button class="btn btn-pink" onclick="goToPhotoBooth()">
+              📸 몽련이와 인생네컷 찍으러 가기 (선택)
+            </button>
+            <button class="btn btn-secondary" onclick="finishWithoutPhoto()">
+              🙌 사진 찍지 않고 참가 완료하기
+            </button>
+          </div>
+        </div>
+
+        <!-- 80% 미만일 때 노출되는 재도전 박스 -->
+        <div id="retryBox" style="display: none; margin-top: 20px;">
+          <p style="color: #b91c1c; font-weight: 700;">
+            아쉽게도 정답률 80%(4문제 이상 정답)에 도달하지 못해 인생네컷 촬영권이 열리지 않았어요.
+          </p>
+          <div class="btn-group">
+            <button class="btn btn-primary" onclick="retryQuiz()">
+              🔄 퀴즈 다시 도전하기
+            </button>
+            <button class="btn btn-secondary" onclick="resetToHome()">
+              🏠 처음으로 돌아가기 (참가 완료)
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- [화면 4] 몽련이와 함께 독도여행 인생네컷 스튜디오 -->
+    <section id="screenBooth" class="screen">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+        <div>
+          <h2 style="margin: 0; color: var(--ocean-dark); font-size: 1.45rem;">
+            📸 몽련이와 함께 독도여행 인생네컷
+          </h2>
+          <p style="margin: 4px 0 0 0; font-size: 0.9rem; color: var(--text-muted);">
+            촬영된 사진은 외부 서버로 전송되지 않으며 이 아이패드에만 저장됩니다.
+          </p>
+        </div>
+        <button class="btn btn-secondary" style="padding: 10px 18px; font-size: 0.95rem;" onclick="resetToHome()">
+          🏠 촬영 종료 및 처음으로
+        </button>
+      </div>
+
+      <div class="booth-layout">
+        <!-- 좌측: 카메라 촬영 스테이지 -->
+        <div class="camera-stage">
+          <div class="video-wrap">
+            <video id="cameraFeed" autoplay playsinline muted></video>
+            <div id="cameraFallbackMsg" style="display: none; padding: 24px; text-align: center;">
+              <p style="margin-bottom: 12px; font-weight: 700; font-size: 1.05rem;">
+                📷 아이패드 기본 카메라 연동 모드
+              </p>
+              <p style="font-size: 0.88rem; color: #cbd5e1; line-height: 1.5;">
+                아래 [아이패드 기본 카메라/사진첩으로 채우기] 버튼을 누르면 아이패드 카메라나 사진첩에서 4컷을 바로 불러올 수 있습니다.
+              </p>
+            </div>
+            <div class="countdown-overlay" id="countdownOverlay">3</div>
+            <div class="flash-overlay" id="flashOverlay"></div>
+          </div>
+
+          <!-- 4컷 썸네일 슬롯 -->
+          <div class="thumbs-row">
+            <div class="thumb-slot active-slot" id="slot0" onclick="selectSlot(0)">1번 컷</div>
+            <div class="thumb-slot" id="slot1" onclick="selectSlot(1)">2번 컷</div>
+            <div class="thumb-slot" id="slot2" onclick="selectSlot(2)">3번 컷</div>
+            <div class="thumb-slot" id="slot3" onclick="selectSlot(3)">4번 컷</div>
+          </div>
+
+          <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 16px;">
+            <button class="btn btn-pink" id="autoShootBtn" onclick="startAuto4Cuts()">
+              ⏱️ 3초 타이머 연속 4컷 촬영
+            </button>
+            <button class="btn btn-primary" id="singleShootBtn" onclick="captureSelectedSlot()">
+              📸 현재 선택 컷 찍기
+            </button>
+            <label class="btn btn-secondary" style="cursor: pointer; font-size: 0.95rem; padding: 12px 18px;">
+              📷 아이패드 기본 카메라/사진첩으로 채우기
+              <input type="file" id="nativeCameraInput" accept="image/*" capture="user" style="display: none;" onchange="handleNativePhoto(event)" />
+            </label>
+          </div>
+        </div>
+
+        <!-- 우측: 합성된 인생네컷 미리보기 및 태블릿 저장 -->
+        <div class="preview-stage">
+          <h3 style="margin: 0 0 8px 0; color: var(--ocean-dark);">🖼️ 인생네컷 완성본 미리보기</h3>
+          <div class="theme-selector">
+            <button class="theme-chip active" id="themeNavy" onclick="setFrameTheme('navy')">🌊 독도 바다 네이비</button>
+            <button class="theme-chip" id="themePink" onclick="setFrameTheme('pink')">🌸 무궁화 핑크</button>
+            <button class="theme-chip" id="themeCream" onclick="setFrameTheme('cream')">🌱 몽련이 화이트·블루</button>
+          </div>
+
+          <canvas id="photoCanvas" width="800" height="1120"></canvas>
+
+          <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px;">
+            <button class="btn btn-success btn-full" onclick="savePhotoToTablet()">
+              💾 아이패드에 인생네컷 이미지 저장하기
+            </button>
+            <button class="btn btn-secondary btn-full" onclick="openImagePreviewModal()">
+              🔍 크게 보기 (길게 눌러 '사진 앱에 저장')
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- [모달 1] 전시 핵심 요약 (미니 도슨트) -->
+  <div class="modal-backdrop" id="docentModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>📖 '5일간 열리는 작은 독도박물관' 전시 핵심 요약</h2>
+        <button class="btn btn-secondary" style="padding: 8px 14px; font-size: 0.9rem;" onclick="closeModal('docentModal')">닫기 ✕</button>
+      </div>
+      <div style="line-height: 1.65; color: #334155; font-size: 0.96rem;">
+        <h3 style="color: var(--ocean-main); margin-bottom: 4px;">1. 독도의 지리적 특징과 지형 (독도 사진·모형 전시)</h3>
+        <p style="margin-top: 0;">
+          • <strong>위치 및 구성:</strong> 경상북도 울릉군 울릉읍 독도리 1~96번지. <strong>동도</strong>와 <strong>서도</strong> 2개의 큰 섬과 <strong>89개의 부속 도서</strong>로 구성.<br/>
+          • <strong>지리적 거리:</strong> 울릉도에서 동남쪽 87.4km(날씨가 맑으면 울릉도에서 육안으로 관측 가능), 일본 오키섬에서는 157.5km.<br/>
+          • <strong>지형적 특징:</strong> 해저 약 2,000m에서 솟아오른 신생대 화산섬(해산)으로, 대한민국 최동단 영토로서 군사·해양과학적 요충지입니다.
+        </p>
+
+        <h3 style="color: var(--ocean-main); margin-bottom: 4px;">2. 독도 영유권의 역사적·국제법적 근거 (논문 포스터 1)</h3>
+        <p style="margin-top: 0;">
+          • <strong>삼국사기(512년):</strong> 신라 지증왕 13년, 이사부 장군이 우산국(울릉도·독도)을 복속하여 우리 역사의 영토로 편입.<br/>
+          • <strong>세종실록 지리지(1454년):</strong> "우산(독도)과 무릉(울릉도) 두 섬이 서로 거리가 멀지 않아 날씨가 맑으면 바라볼 수 있다"고 기록.<br/>
+          • <strong>안용복의 활약과 에도 막부의 도해 금지령(1696년):</strong> 일본 막부가 울릉도와 독도가 조선 영토임을 공식 확인.<br/>
+          • <strong>일본 태정관 지령(1877년):</strong> 메이지 정부 최고 행정기관인 태정관이 "죽도(울릉도) 외 일도(독도)는 일본과 관계가 없다"고 공식 결정.<br/>
+          • <strong>대한제국 칙령 제41호(1900년 10월 25일):</strong> 고종 황제가 울릉도를 '울도군'으로 승격시키고 <strong>석도(독도)</strong>를 관할 구역으로 법제화하여 근대 국제법적으로도 영유권을 확립.
+        </p>
+
+        <h3 style="color: var(--ocean-main); margin-bottom: 4px;">3. 독도의 산업·생물·해양 자원 (논문 포스터 2)</h3>
+        <p style="margin-top: 0;">
+          • <strong>조경수역과 해양 생태계:</strong> 북한한류와 동한난류가 교차하여 플랑크톤이 풍부한 황금어장을 형성하며, 괭이갈매기·독도사철나무·섬기린초 등 다양한 생물이 서식.<br/>
+          • <strong>가스하이드레이트(메탄하이드레이트):</strong> 독도 주변 해저에 매장된 '불타는 얼음'이라 불리는 차세대 청정 에너지원 및 해양심층수 자원.
+        </p>
+
+        <h3 style="color: var(--ocean-main); margin-bottom: 4px;">4. 국제 정세와 평화·정의를 위한 실천 방안</h3>
+        <p style="margin-top: 0;">
+          • 감정적 대응을 넘어 역사적 사료와 국제법적 근거를 명확히 숙지하고, 세계 시민들에게 평화롭고 논리적인 방법으로 독도의 진실을 알리는 태도가 중요합니다.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- [모달 2] 참가자 명단 관리 및 교사 설정 모달 -->
+  <div class="modal-backdrop" id="adminModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>📊 참가자 명단 관리 및 교사 설정</h2>
+        <button class="btn btn-secondary" style="padding: 8px 14px; font-size: 0.9rem;" onclick="closeModal('adminModal')">닫기 ✕</button>
+      </div>
+
+      <!-- 몽련이 원본 이미지 등록 안내 -->
+      <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 16px; padding: 16px; margin-bottom: 18px;">
+        <h3 style="margin: 0 0 6px 0; font-size: 1rem; color: var(--ocean-dark);">
+          🎨 '몽련이 독도_2.jpg' 원본 고화질 이미지 설정
+        </h3>
+        <p style="margin: 0 0 12px 0; font-size: 0.88rem; color: #475569; line-height: 1.45;">
+          왜곡 없는 100% 원본 비율 합성과 아이패드 보안 오류 방지를 위해, 아이패드에 저장된 <strong>몽련이 독도_2.jpg</strong> 파일을 선택해 주세요. 한 번 불러오면 태블릿 내부에 영구 저장됩니다.
+        </p>
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <button class="btn btn-primary" style="padding: 10px 16px; font-size: 0.9rem;" onclick="triggerMongryeoniSelect()">
+            📁 '몽련이 독도_2.jpg' 파일 선택하기
+          </button>
+          <button class="btn btn-secondary" style="padding: 10px 16px; font-size: 0.9rem;" onclick="resetMongryeoniImage()">
+            저장된 이미지 초기화
+          </button>
+          <span id="mongryeoniStatusText" style="font-size: 0.85rem; font-weight: 700; color: var(--ocean-main);"></span>
+        </div>
+      </div>
+
+      <!-- 스프레드시트 다운로드 및 옵션 -->
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 16px; margin-bottom: 18px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px;">
+          <div>
+            <h3 style="margin: 0; font-size: 1rem; color: var(--ocean-dark);">📥 참가자 명단 스프레드시트(.csv) 저장</h3>
+            <p style="margin: 4px 0 0 0; font-size: 0.85rem; color: var(--text-muted);">
+              아이패드 Numbers 또는 엑셀(Excel)에서 바로 열리는 스프레드시트 파일입니다.
+            </p>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-success" style="padding: 10px 18px; font-size: 0.95rem;" onclick="exportParticipantsCSV()">
+              📊 전체 명단 CSV 다운로드
+            </button>
+            <button class="btn btn-secondary" style="padding: 10px 14px; font-size: 0.85rem; color: #b91c1c;" onclick="clearAllRecords()">
+              🗑️ 명단 초기화
+            </button>
+          </div>
+        </div>
+
+        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer;">
+          <input type="checkbox" id="autoCsvToggle" onchange="toggleAutoCsv(this.checked)" style="width: 18px; height: 18px;" />
+          학생이 퀴즈를 완료할 때마다 즉시 스프레드시트(.csv) 파일 자동 다운로드하기
+        </label>
+      </div>
+
+      <!-- 누적 참가자 테이블 -->
+      <div style="overflow-x: auto;">
+        <table class="records-table">
+          <thead>
+            <tr>
+              <th>연번</th>
+              <th>참여 일시</th>
+              <th>학번</th>
+              <th>이름</th>
+              <th>정답률(점수)</th>
+              <th>인생네컷</th>
+              <th>평화 실천 다짐</th>
+            </tr>
+          </thead>
+          <tbody id="recordsTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- [모달 3] 아이패드 길게 눌러 사진첩 저장용 모달 -->
+  <div class="modal-backdrop" id="imagePreviewModal">
+    <div class="modal-content" style="text-align: center; max-width: 520px;">
+      <div class="modal-header">
+        <h2>📱 아이패드 사진첩에 저장하기</h2>
+        <button class="btn btn-secondary" style="padding: 8px 14px; font-size: 0.9rem;" onclick="closeModal('imagePreviewModal')">닫기 ✕</button>
+      </div>
+      <p style="margin: 0 0 12px 0; font-size: 0.95rem; color: #334155; font-weight: 600;">
+        아래 이미지를 손가락으로 <strong>1초간 길게 누른 뒤 [사진 앱에 저장]</strong>을 누르면 아이패드 사진첩에 즉시 저장됩니다!
+      </p>
+      <img id="longPressPreviewImg" alt="완성된 인생네컷" style="width: 100%; max-width: 380px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.2);" />
+    </div>
+  </div>
+
+  <script>
+    /**************************************************************
+     * 1. '몽련이 독도_2.jpg' 원본 비율 100% 유지 로더 (임시 왜곡 SVG 제거)
+     **************************************************************/
+    const STORAGE_KEY_RECORDS = 'dokdo_museum_records_v1';
+    const STORAGE_KEY_IMAGE = 'dokdo_mongryeoni_base64_v2';
+    const STORAGE_KEY_AUTOCSV = 'dokdo_museum_autocsv_v1';
+
+    let mongryeoniImageObj = new Image();
+    let isMongryeoniLoaded = false;
+
+    function triggerMongryeoniSelect() {
+      document.getElementById('globalMongryeoniInput').click();
+    }
+
+    function applyMongryeoniSource(srcUrl, labelText) {
+      const heroImg = document.getElementById('heroMongryeoniImg');
+      const guideBox = document.getElementById('heroLoadGuide');
+      const statusText = document.getElementById('mongryeoniStatusText');
+
+      mongryeoniImageObj = new Image();
+      mongryeoniImageObj.onload = function () {
+        isMongryeoniLoaded = true;
+        heroImg.src = srcUrl;
+        heroImg.style.display = 'block';
+        guideBox.style.display = 'none';
+        statusText.textContent = labelText || '✅ 원본 몽련이 독도_2.jpg 적용 완료';
+        renderFourCutCanvas();
+      };
+      mongryeoniImageObj.onerror = function () {
+        isMongryeoniLoaded = false;
+        heroImg.style.display = 'none';
+        guideBox.style.display = 'flex';
+        statusText.textContent = '⚠️ 원본 이미지 파일을 선택해 주세요';
+      };
+      mongryeoniImageObj.src = srcUrl;
+    }
+
+    function initMongryeoniCharacter() {
+      const savedBase64 = localStorage.getItem(STORAGE_KEY_IMAGE);
+      if (savedBase64) {
+        applyMongryeoniSource(savedBase64, '✅ 저장된 원본 몽련이 독도_2.jpg 적용됨');
+        return;
+      }
+
+      // 같은 폴더에 있는 파일명 순차 자동 탐색 ('몽련이 독도_2.jpg' 최우선)
+      const candidateFiles = [
+        '몽련이 독도_2.jpg',
+        '몽련이 독도.jpg',
+        '몽련이독도_2.jpg',
+        '몽련이독도.jpg',
+        'mongryeoni.jpg',
+        'mongryeoni.png'
+      ];
+
+      let idx = 0;
+      function tryNextCandidate() {
+        if (idx >= candidateFiles.length) {
+          // 폴더 자동 탐색 실패 시 변형된 임시 그림을 띄우지 않고, 즉시 원본 선택 안내 버튼 표시
+          document.getElementById('heroMongryeoniImg').style.display = 'none';
+          document.getElementById('heroLoadGuide').style.display = 'flex';
+          document.getElementById('mongryeoniStatusText').textContent =
+            'ℹ️ 메인 화면 또는 위 버튼으로 몽련이 독도_2.jpg를 선택해 주세요.';
+          return;
+        }
+        const fileName = candidateFiles[idx++];
+        const testImg = new Image();
+        testImg.onload = function () {
+          applyMongryeoniSource(fileName, `✅ 폴더 내 '${fileName}' 원본 연결됨`);
+        };
+        testImg.onerror = tryNextCandidate;
+        testImg.src = fileName;
+      }
+
+      tryNextCandidate();
+    }
+
+    // 선택한 이미지를 원본 가로·세로 비율 그대로 고화질 Base64로 변환하여 저장
+    function uploadCustomMongryeoni(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const rawDataUrl = e.target.result;
+        const tempImg = new Image();
+        tempImg.onload = function () {
+          // 원본 가로·세로 비율 100% 유지 리사이즈 (localStorage 용량 초과 방지 및 고화질 보존)
+          const maxDim = 900;
+          let w = tempImg.naturalWidth || tempImg.width;
+          let h = tempImg.naturalHeight || tempImg.height;
+          if (w > maxDim || h > maxDim) {
+            const scale = Math.min(maxDim / w, maxDim / h);
+            w = Math.round(w * scale);
+            h = Math.round(h * scale);
+          }
+          const c = document.createElement('canvas');
+          c.width = w;
+          c.height = h;
+          const ctx = c.getContext('2d');
+          // 흰색 배경 보존
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, w, h);
+          ctx.drawImage(tempImg, 0, 0, w, h);
+
+          const optimizedDataUrl = c.toDataURL('image/jpeg', 0.95);
+          try {
+            localStorage.setItem(STORAGE_KEY_IMAGE, optimizedDataUrl);
+          } catch (err) {
+            console.warn('localStorage 용량 제한으로 현재 세션에만 유지됩니다.');
+          }
+          applyMongryeoniSource(optimizedDataUrl, '✅ 고화질 원본 몽련이 독도_2.jpg 영구 등록 완료!');
+        };
+        tempImg.src = rawDataUrl;
+      };
+      reader.readAsDataURL(file);
+      event.target.value = '';
+    }
+
+    function resetMongryeoniImage() {
+      localStorage.removeItem(STORAGE_KEY_IMAGE);
+      isMongryeoniLoaded = false;
+      initMongryeoniCharacter();
+      setTimeout(renderFourCutCanvas, 200);
+    }
+
+    /**************************************************************
+     * 2. 전시 기반 5문제 퀴즈 데이터
+     **************************************************************/
+    const QUIZ_DATA = [
+      {
+        category: "🏝️ [전시 1] 독도의 지리적 특징과 지형",
+        question: "독도의 지리적·지형적 특징에 대한 설명으로 옳은 것은 무엇인가요?",
+        options: [
+          "독도는 1개의 큰 섬으로만 이루어진 평탄한 모래섬이다.",
+          "동도와 서도 2개의 큰 섬과 89개의 부속 도서로 이루어진 화산섬이며, 날씨가 맑으면 울릉도에서 육안으로 볼 수 있다.",
+          "울릉도보다 일본 오키섬에서 거리가 더 가깝다.",
+          "독도는 대한민국의 최남단 영토이다."
+        ],
+        answer: 1,
+        explanation: "정답은 ②번입니다! 독도는 동도와 서도 외 89개의 부속 도서로 구성된 화산섬이며, 울릉도에서 87.4km(일본 오키섬에서는 157.5km) 떨어져 있어 맑은 날 울릉도에서 눈으로 볼 수 있습니다."
+      },
+      {
+        category: "📜 [전시 2] 독도 영유권의 역사적 기록",
+        question: "1900년 10월 25일, 대한제국 고종 황제가 울릉도를 '울도군'으로 승격시키고 '석도(독도)'를 관할 구역으로 명확히 규정한 근대 법령은 무엇인가요?",
+        options: [
+          "대한제국 칙령 제41호",
+          "훈민정음 해례본",
+          "경국대전",
+          "대동여지도"
+        ],
+        answer: 0,
+        explanation: "정답은 ①번 '대한제국 칙령 제41호'입니다! 대한제국이 독도를 근대 법령으로써 전 세계에 우리 영토임을 공포한 핵심 증거입니다."
+      },
+      {
+        category: "⚖️ [전시 3] 국제법적 근거와 사료",
+        question: "1877년 일본의 최고 행정기관이 '울릉도(죽도)와 독도(송도)는 일본과 관계가 없다'는 사실을 공식적으로 확인하고 내무성에 지시한 문서는 무엇인가요?",
+        options: [
+          "시마네현 고시 제40호",
+          "태정관 지령",
+          "강화도 조약",
+          "포츠담 선언"
+        ],
+        answer: 1,
+        explanation: "정답은 ②번 '태정관 지령(1877년)'입니다! 일본 정부 스스로 독도가 조선의 영토이며 일본과 무관함을 공식 인정한 결정적 국제법적·역사적 근거입니다."
+      },
+      {
+        category: "💎 [전시 4] 독도 주변 산업·생물·해양자원",
+        question: "독도 주변 해역은 한류와 난류가 만나는 조경수역으로 해양 생물이 풍부합니다. 특히 독도 심해 해저에 매장되어 있는 '불타는 얼음'이라 불리는 차세대 청정 에너지원은 무엇인가요?",
+        options: [
+          "석탄(무연탄)",
+          "가스하이드레이트(메탄하이드레이트)",
+          "우라늄 광석",
+          "보크사이트"
+        ],
+        answer: 1,
+        explanation: "정답은 ②번 '가스하이드레이트(메탄하이드레이트)'입니다! 독도는 황금어장일 뿐만 아니라 미래 에너지 자원과 해양 과학 연구의 보고입니다."
+      },
+      {
+        category: "🕊️ [전시 5] 국제 정세와 평화·정의 실천 방안",
+        question: "독도 문제를 국제 정세와 연결하여 바라보고, 평화와 정의에 기여하기 위해 우리가 가져야 할 가장 올바른 실천 태도는 무엇인가요?",
+        options: [
+          "역사적 기록과 국제법적 근거를 정확히 탐구하고, 평화롭고 논리적인 방법으로 세계에 독도의 진실을 알린다.",
+          "근거 자료를 찾아보지 않고 무조건 감정적인 댓글만 작성한다.",
+          "독도 문제는 어른들만의 일이므로 관심을 가지지 않는다.",
+          "독도의 생태계와 해양 환경 보전에는 신경 쓰지 않는다."
+        ],
+        answer: 0,
+        explanation: "정답은 ①번입니다! 독도의 지리·역사·국제법적 근거를 바탕으로 논리적으로 설명하고, 동북아의 평화와 정의를 지키는 세계시민으로 실천하는 것이 중요합니다."
+      }
+    ];
+
+    /**************************************************************
+     * 3. 앱 상태 관리 및 퀴즈 진행 로직
+     **************************************************************/
+    let currentStudent = {
+      studentId: '',
+      studentName: '',
+      pledge: '',
+      scoreCount: 0,
+      scorePercent: 0,
+      passed: false,
+      photoTaken: '미촬영',
+      timestamp: '',
+      recordIndex: -1
+    };
+
+    let currentQIndex = 0;
+    let isAnswered = false;
+
+    function showScreen(screenId) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(screenId).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function startQuiz() {
+      const idVal = document.getElementById('studentIdInput').value.trim();
+      const nameVal = document.getElementById('studentNameInput').value.trim();
+      const pledgeVal = document.getElementById('studentPledgeInput').value.trim();
+
+      if (!idVal) {
+        alert('학번을 입력해 주세요! (예: 20315)');
+        document.getElementById('studentIdInput').focus();
+        return;
+      }
+
+      currentStudent = {
+        studentId: idVal,
+        studentName: nameVal || '-',
+        pledge: pledgeVal || '독도를 사랑하고 평화를 실천하겠습니다!',
+        scoreCount: 0,
+        scorePercent: 0,
+        passed: false,
+        photoTaken: '미촬영',
+        timestamp: new Date().toLocaleString('ko-KR'),
+        recordIndex: -1
+      };
+
+      currentQIndex = 0;
+      document.getElementById('quizStudentBadge').textContent =
+        `참가자: ${currentStudent.studentId} ${currentStudent.studentName !== '-' ? '(' + currentStudent.studentName + ')' : ''}`;
+
+      renderQuestion();
+      showScreen('screenQuiz');
+    }
+
+    function renderQuestion() {
+      isAnswered = false;
+      const qData = QUIZ_DATA[currentQIndex];
+      document.getElementById('quizStepText').textContent = `문제 ${currentQIndex + 1} / ${QUIZ_DATA.length}`;
+      document.getElementById('quizProgressBar').style.width = `${((currentQIndex + 1) / QUIZ_DATA.length) * 100}%`;
+
+      document.getElementById('qCategory').textContent = qData.category;
+      document.getElementById('qTitle').textContent = `Q${currentQIndex + 1}. ${qData.question}`;
+
+      const optionsContainer = document.getElementById('qOptions');
+      optionsContainer.innerHTML = '';
+
+      qData.options.forEach((optText, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerHTML = `<span class="option-num">${idx + 1}</span><span>${optText}</span>`;
+        btn.onclick = () => selectAnswer(idx, btn);
+        optionsContainer.appendChild(btn);
+      });
+
+      const expBox = document.getElementById('qExplanation');
+      expBox.style.display = 'none';
+      expBox.innerHTML = '';
+
+      const nextBtn = document.getElementById('nextQuestionBtn');
+      nextBtn.style.display = 'none';
+      nextBtn.textContent = currentQIndex === QUIZ_DATA.length - 1 ? '결과 확인하기 🎉' : '다음 문제로 이동 ➡️';
+    }
+
+    function selectAnswer(selectedIndex, clickedBtn) {
+      if (isAnswered) return;
+      isAnswered = true;
+
+      const qData = QUIZ_DATA[currentQIndex];
+      const allButtons = document.querySelectorAll('#qOptions .option-btn');
+
+      if (selectedIndex === qData.answer) {
+        currentStudent.scoreCount++;
+        clickedBtn.classList.add('correct');
+      } else {
+        clickedBtn.classList.add('wrong');
+        allButtons[qData.answer].classList.add('correct');
+      }
+
+      const expBox = document.getElementById('qExplanation');
+      expBox.innerHTML = `<strong>💡 해설:</strong> ${qData.explanation}`;
+      expBox.style.display = 'block';
+
+      document.getElementById('nextQuestionBtn').style.display = 'inline-flex';
+    }
+
+    function nextQuestion() {
+      if (currentQIndex < QUIZ_DATA.length - 1) {
+        currentQIndex++;
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function finishQuiz() {
+      currentStudent.scorePercent = Math.round((currentStudent.scoreCount / QUIZ_DATA.length) * 100);
+      currentStudent.passed = currentStudent.scorePercent >= 80;
+
+      saveParticipantRecord();
+
+      document.getElementById('resultPercent').textContent = `${currentStudent.scorePercent}%`;
+      document.getElementById('resultCount').textContent = `${QUIZ_DATA.length}문제 중 ${currentStudent.scoreCount}개 정답`;
+      document.getElementById('savedIdText').textContent = currentStudent.studentId;
+
+      if (currentStudent.passed) {
+        document.getElementById('resultHeadline').textContent = '🎉 독도 박물관 퀴즈 통과를 축하합니다!';
+        document.getElementById('resultSubtext').textContent =
+          '독도의 지리·역사·국제법적 가치를 훌륭하게 이해했네요!';
+        document.getElementById('photoRewardBox').style.display = 'block';
+        document.getElementById('retryBox').style.display = 'none';
+      } else {
+        document.getElementById('resultHeadline').textContent = '👏 수고했어요! 조금만 더 살펴볼까요?';
+        document.getElementById('resultSubtext').textContent =
+          '정답률 80%(4문제) 이상이면 몽련이와 함께 독도여행 인생네컷을 찍을 수 있어요.';
+        document.getElementById('photoRewardBox').style.display = 'none';
+        document.getElementById('retryBox').style.display = 'block';
+      }
+
+      showScreen('screenResult');
+    }
+
+    function retryQuiz() {
+      currentStudent.scoreCount = 0;
+      currentQIndex = 0;
+      renderQuestion();
+      showScreen('screenQuiz');
+    }
+
+    function finishWithoutPhoto() {
+      updateLastRecordPhotoStatus('미선택(완료)');
+      if (isAutoCsvEnabled()) {
+        exportParticipantsCSV();
+      }
+      alert('참여해 주셔서 감사합니다! 작은 독도박물관 관람을 완료했습니다. 🇰🇷');
+      resetToHome();
+    }
+
+    function resetToHome() {
+      stopCameraStream();
+      document.getElementById('studentIdInput').value = '';
+      document.getElementById('studentNameInput').value = '';
+      document.getElementById('studentPledgeInput').value = '';
+      showScreen('screenStart');
+    }
+
+    /**************************************************************
+     * 4. 참가 명단 로컬 저장 및 스프레드시트(CSV) 내보내기
+     **************************************************************/
+    function getRecords() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY_RECORDS);
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveParticipantRecord() {
+      const records = getRecords();
+      if (currentStudent.recordIndex >= 0 && records[currentStudent.recordIndex]) {
+        records[currentStudent.recordIndex] = { ...currentStudent };
+      } else {
+        currentStudent.recordIndex = records.length;
+        records.push({ ...currentStudent });
+      }
+      localStorage.setItem(STORAGE_KEY_RECORDS, JSON.stringify(records));
+      updateRecordsUI();
+    }
+
+    function updateLastRecordPhotoStatus(statusStr) {
+      const records = getRecords();
+      if (currentStudent.recordIndex >= 0 && records[currentStudent.recordIndex]) {
+        records[currentStudent.recordIndex].photoTaken = statusStr;
+        localStorage.setItem(STORAGE_KEY_RECORDS, JSON.stringify(records));
+        updateRecordsUI();
+      }
+    }
+
+    function updateRecordsUI() {
+      const records = getRecords();
+      document.getElementById('topRecordCount').textContent = records.length;
+      const tbody = document.getElementById('recordsTableBody');
+      tbody.innerHTML = '';
+
+      if (records.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="color: #94a3b8; padding: 20px;">아직 등록된 참가 학생이 없습니다.</td></tr>`;
+        return;
+      }
+
+      records.forEach((r, idx) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${idx + 1}</td>
+          <td>${escapeHtml(r.timestamp)}</td>
+          <td><strong>${escapeHtml(r.studentId)}</strong></td>
+          <td>${escapeHtml(r.studentName)}</td>
+          <td>${r.scorePercent}% (${r.scoreCount}/5)</td>
+          <td>${escapeHtml(r.photoTaken)}</td>
+          <td style="text-align:left;">${escapeHtml(r.pledge)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function exportParticipantsCSV() {
+      const records = getRecords();
+      if (records.length === 0) {
+        alert('저장된 참가자 명단이 없습니다.');
+        return;
+      }
+
+      const headers = ['연번', '참여일시', '학번', '이름', '정답수', '정답률(%)', '통과여부(80%이상)', '인생네컷촬영여부', '평화실천다짐'];
+      const rows = records.map((r, i) => [
+        i + 1,
+        r.timestamp,
+        r.studentId,
+        r.studentName,
+        r.scoreCount,
+        r.scorePercent,
+        r.passed ? '통과' : '미통과',
+        r.photoTaken,
+        r.pledge
+      ]);
+
+      const csvContent =
+        '\uFEFF' +
+        [headers, ...rows]
+          .map(row => row.map(cell => `"${String(cell ?? '').replace(/"/g, '""')}"`).join(','))
+          .join('\r\n');
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const todayStr = new Date().toISOString().slice(0, 10);
+      a.href = url;
+      a.download = `작은독도박물관_참가자명단_${todayStr}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function clearAllRecords() {
+      if (!confirm('정말로 저장된 전체 참가자 명단을 초기화하시겠습니까? (초기화 전 CSV 다운로드를 권장합니다)')) return;
+      localStorage.removeItem(STORAGE_KEY_RECORDS);
+      updateRecordsUI();
+    }
+
+    function isAutoCsvEnabled() {
+      return localStorage.getItem(STORAGE_KEY_AUTOCSV) === 'true';
+    }
+
+    function toggleAutoCsv(checked) {
+      localStorage.setItem(STORAGE_KEY_AUTOCSV, checked ? 'true' : 'false');
+    }
+
+    /**************************************************************
+     * 5. '몽련이와 함께 독도여행 인생네컷' 카메라 & 왜곡 없는 캔버스 합성
+     **************************************************************/
+    let mediaStream = null;
+    let capturedPhotos = [null, null, null, null];
+    let selectedSlotIndex = 0;
+    let currentFrameTheme = 'navy';
+    let isShootingTimer = false;
+
+    async function goToPhotoBooth() {
+      updateLastRecordPhotoStatus('촬영참여');
+      if (isAutoCsvEnabled()) {
+        exportParticipantsCSV();
+      }
+      capturedPhotos = [null, null, null, null];
+      selectedSlotIndex = 0;
+      updateSlotThumbnails();
+      showScreen('screenBooth');
+      await startCameraStream();
+      renderFourCutCanvas();
+    }
+
+    async function startCameraStream() {
+      const video = document.getElementById('cameraFeed');
+      const fallbackMsg = document.getElementById('cameraFallbackMsg');
+      const autoBtn = document.getElementById('autoShootBtn');
+      const singleBtn = document.getElementById('singleShootBtn');
+
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        video.style.display = 'none';
+        fallbackMsg.style.display = 'block';
+        autoBtn.style.display = 'none';
+        singleBtn.style.display = 'none';
+        return;
+      }
+
+      try {
+        mediaStream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 960 } },
+          audio: false
+        });
+        video.srcObject = mediaStream;
+        video.style.display = 'block';
+        fallbackMsg.style.display = 'none';
+        autoBtn.style.display = 'inline-flex';
+        singleBtn.style.display = 'inline-flex';
+      } catch (err) {
+        video.style.display = 'none';
+        fallbackMsg.style.display = 'block';
+        autoBtn.style.display = 'none';
+        singleBtn.style.display = 'none';
+      }
+    }
+
+    function stopCameraStream() {
+      if (mediaStream) {
+        mediaStream.getTracks().forEach(track => track.stop());
+        mediaStream = null;
+      }
+    }
+
+    function selectSlot(idx) {
+      selectedSlotIndex = idx;
+      for (let i = 0; i < 4; i++) {
+        const el = document.getElementById(`slot${i}`);
+        el.classList.toggle('active-slot', i === idx);
+      }
+    }
+
+    function captureCurrentVideoFrame() {
+      const video = document.getElementById('cameraFeed');
+      if (!video || !video.videoWidth) return null;
+
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = 640;
+      tempCanvas.height = 480;
+      const tCtx = tempCanvas.getContext('2d');
+
+      tCtx.save();
+      tCtx.translate(tempCanvas.width, 0);
+      tCtx.scale(-1, 1);
+
+      const vRatio = video.videoWidth / video.videoHeight;
+      const cRatio = tempCanvas.width / tempCanvas.height;
+      let sx = 0, sy = 0, sw = video.videoWidth, sh = video.videoHeight;
+
+      if (vRatio > cRatio) {
+        sw = video.videoHeight * cRatio;
+        sx = (video.videoWidth - sw) / 2;
+      } else {
+        sh = video.videoWidth / cRatio;
+        sy = (video.videoHeight - sh) / 2;
+      }
+
+      tCtx.drawImage(video, sx, sy, sw, sh, 0, 0, tempCanvas.width, tempCanvas.height);
+      tCtx.restore();
+
+      const img = new Image();
+      img.src = tempCanvas.toDataURL('image/jpeg', 0.92);
+      return img;
+    }
+
+    function triggerFlash() {
+      const flash = document.getElementById('flashOverlay');
+      flash.style.opacity = '0.9';
+      setTimeout(() => { flash.style.opacity = '0'; }, 150);
+    }
+
+    function captureSelectedSlot() {
+      if (isShootingTimer) return;
+      const img = captureCurrentVideoFrame();
+      if (!img) {
+        document.getElementById('nativeCameraInput').click();
+        return;
+      }
+      triggerFlash();
+      img.onload = () => {
+        capturedPhotos[selectedSlotIndex] = img;
+        updateSlotThumbnails();
+        renderFourCutCanvas();
+        if (selectedSlotIndex < 3) {
+          selectSlot(selectedSlotIndex + 1);
+        }
+      };
+    }
+
+    async function startAuto4Cuts() {
+      if (isShootingTimer) return;
+      isShootingTimer = true;
+      const overlay = document.getElementById('countdownOverlay');
+
+      for (let slot = 0; slot < 4; slot++) {
+        selectSlot(slot);
+        overlay.style.display = 'flex';
+        for (let sec = 3; sec >= 1; sec--) {
+          overlay.textContent = sec;
+          await new Promise(r => setTimeout(r, 900));
+        }
+        overlay.style.display = 'none';
+        triggerFlash();
+
+        const img = captureCurrentVideoFrame();
+        if (img) {
+          await new Promise(resolve => {
+            img.onload = resolve;
+          });
+          capturedPhotos[slot] = img;
+          updateSlotThumbnails();
+          renderFourCutCanvas();
+        }
+        await new Promise(r => setTimeout(r, 400));
+      }
+      isShootingTimer = false;
+    }
+
+    function handleNativePhoto(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = new Image();
+        img.onload = function () {
+          capturedPhotos[selectedSlotIndex] = img;
+          updateSlotThumbnails();
+          renderFourCutCanvas();
+          if (selectedSlotIndex < 3) {
+            selectSlot(selectedSlotIndex + 1);
+          }
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+      event.target.value = '';
+    }
+
+    function updateSlotThumbnails() {
+      for (let i = 0; i < 4; i++) {
+        const slotEl = document.getElementById(`slot${i}`);
+        if (capturedPhotos[i]) {
+          slotEl.innerHTML = `<img src="${capturedPhotos[i].src}" alt="컷 ${i + 1}" />`;
+        } else {
+          slotEl.innerHTML = `${i + 1}번 컷`;
+        }
+      }
+    }
+
+    function setFrameTheme(theme) {
+      currentFrameTheme = theme;
+      document.getElementById('themeNavy').classList.toggle('active', theme === 'navy');
+      document.getElementById('themePink').classList.toggle('active', theme === 'pink');
+      document.getElementById('themeCream').classList.toggle('active', theme === 'cream');
+      renderFourCutCanvas();
+    }
+
+    // 원본 가로·세로 비율을 100% 보존하며 박스 중앙에 그리는 함수 (왜곡 완벽 방지)
+    function drawImageContain(ctx, img, x, y, maxW, maxH) {
+      const iw = img.naturalWidth || img.width;
+      const ih = img.naturalHeight || img.height;
+      if (!iw || !ih) return;
+
+      const scale = Math.min(maxW / iw, maxH / ih);
+      const drawW = iw * scale;
+      const drawH = ih * scale;
+      const offsetX = x + (maxW - drawW) / 2;
+      const offsetY = y + (maxH - drawH) / 2;
+
+      ctx.drawImage(img, offsetX, offsetY, drawW, drawH);
+    }
+
+    // 인생네컷 고해상도 캔버스 렌더링 (800 x 1120)
+    function renderFourCutCanvas() {
+      const canvas = document.getElementById('photoCanvas');
+      const ctx = canvas.getContext('2d');
+      const W = canvas.width;
+      const H = canvas.height;
+
+      const palettes = {
+        navy: { bg1: '#0f2942', bg2: '#1e3a8a', accent: '#f472b6', text: '#ffffff', sub: '#bfdbfe', cardBg: 'rgba(255, 255, 255, 0.14)' },
+        pink: { bg1: '#831843', bg2: '#be185d', accent: '#fde047', text: '#ffffff', sub: '#fbcfe8', cardBg: 'rgba(255, 255, 255, 0.16)' },
+        cream: { bg1: '#eff6ff', bg2: '#dbeafe', accent: '#1d4ed8', text: '#0f2942', sub: '#334155', cardBg: 'rgba(255, 255, 255, 0.85)' }
+      };
+      const pal = palettes[currentFrameTheme] || palettes.navy;
+
+      // 1. 배경 그라데이션
+      const grad = ctx.createLinearGradient(0, 0, W, H);
+      grad.addColorStop(0, pal.bg1);
+      grad.addColorStop(1, pal.bg2);
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+
+      // 2. 장식 테두리
+      ctx.strokeStyle = pal.accent;
+      ctx.lineWidth = 6;
+      ctx.strokeRect(20, 20, W - 40, H - 40);
+
+      // 3. 상단 타이틀 헤더
+      ctx.fillStyle = pal.text;
+      ctx.textAlign = 'center';
+      ctx.font = '900 34px "Apple SD Gothic Neo", "Malgun Gothic", sans-serif';
+      ctx.fillText('🇰🇷 5일간 열리는 작은 독도박물관', W / 2, 78);
+
+      ctx.fillStyle = pal.sub;
+      ctx.font = '700 22px "Apple SD Gothic Neo", "Malgun Gothic", sans-serif';
+      ctx.fillText('✨ 몽련이와 함께 독도여행 인생네컷 ✨', W / 2, 114);
+
+      // 4. 2x2 4컷 사진 배치 영역
+      const slotW = 340;
+      const slotH = 265;
+      const gapX = 28;
+      const gapY = 26;
+      const startX = (W - (slotW * 2 + gapX)) / 2;
+      const startY = 142;
+
+      const positions = [
+        { x: startX, y: startY },
+        { x: startX + slotW + gapX, y: startY },
+        { x: startX, y: startY + slotH + gapY },
+        { x: startX + slotW + gapX, y: startY + slotH + gapY }
+      ];
+
+      positions.forEach((pos, idx) => {
+        ctx.fillStyle = '#ffffff';
+        roundRect(ctx, pos.x - 6, pos.y - 6, slotW + 12, slotH + 12, 14, true, false);
+
+        if (capturedPhotos[idx]) {
+          ctx.save();
+          roundRect(ctx, pos.x, pos.y, slotW, slotH, 10, false, false);
+          ctx.clip();
+          drawImageCover(ctx, capturedPhotos[idx], pos.x, pos.y, slotW, slotH);
+          ctx.restore();
+        } else {
+          ctx.fillStyle = '#1e293b';
+          roundRect(ctx, pos.x, pos.y, slotW, slotH, 10, true, false);
+          ctx.fillStyle = '#94a3b8';
+          ctx.textAlign = 'center';
+          ctx.font = '700 24px sans-serif';
+          ctx.fillText(`독도여행 ${idx + 1}번째 컷`, pos.x + slotW / 2, pos.y + slotH / 2 + 8);
+        }
+      });
+
+      // 5. 하단 푸터 (학번, 다짐, 날짜 + '몽련이 독도_2.jpg' 원본 비율 스티커)
+      const footerY = 740;
+
+      // 좌측 학생 정보 및 다짐 카드
+      ctx.fillStyle = pal.cardBg;
+      roundRect(ctx, 46, footerY, 446, 320, 20, true, false);
+
+      ctx.textAlign = 'left';
+      ctx.fillStyle = pal.accent;
+      ctx.font = '800 22px "Apple SD Gothic Neo", sans-serif';
+      ctx.fillText('🏅 독도 영유권 퀴즈 마스터 인증', 70, footerY + 46);
+
+      ctx.fillStyle = pal.text;
+      ctx.font = '800 25px "Apple SD Gothic Neo", sans-serif';
+      const studentLabel = `참가자: ${currentStudent.studentId || '독도수호대'} ${currentStudent.studentName && currentStudent.studentName !== '-' ? currentStudent.studentName : ''}`;
+      ctx.fillText(studentLabel, 70, footerY + 90);
+
+      ctx.fillStyle = pal.sub;
+      ctx.font = '700 19px "Apple SD Gothic Neo", sans-serif';
+      ctx.fillText('🕊️ 나의 평화·정의 실천 다짐:', 70, footerY + 138);
+
+      ctx.fillStyle = pal.text;
+      ctx.font = '700 20px "Apple SD Gothic Neo", sans-serif';
+      wrapText(ctx, `"${currentStudent.pledge || '역사적·국제법적 근거로 독도를 평화롭게 알리겠습니다!'}"`, 70, footerY + 172, 398, 28);
+
+      const dateStr = new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
+      ctx.fillStyle = pal.sub;
+      ctx.font = '600 16px sans-serif';
+      ctx.fillText(`📅 ${dateStr} | 대한민국 아름다운 영토 독도`, 70, footerY + 292);
+
+      // 우측 '몽련이 독도_2.jpg' 전용 순백색 액자 (가로x세로 비율: 244 x 232)
+      const charBoxX = 510;
+      const charBoxY = footerY;
+      const charBoxW = 244;
+      const charBoxH = 232;
+
+      // 몽련이 독도_2.jpg의 흰색 배경과 자연스럽게 이어지는 순백색 카드
+      ctx.fillStyle = '#ffffff';
+      roundRect(ctx, charBoxX, charBoxY, charBoxW, charBoxH, 24, true, false);
+      ctx.strokeStyle = pal.accent;
+      ctx.lineWidth = 4;
+      roundRect(ctx, charBoxX, charBoxY, charBoxW, charBoxH, 24, false, true);
+
+      if (isMongryeoniLoaded && mongryeoniImageObj.complete) {
+        try {
+          ctx.save();
+          roundRect(ctx, charBoxX + 8, charBoxY + 8, charBoxW - 16, charBoxH - 16, 16, false, false);
+          ctx.clip();
+          // 100% 원본 비율 유지 렌더링 (찌그러짐 없음)
+          drawImageContain(ctx, mongryeoniImageObj, charBoxX + 8, charBoxY + 8, charBoxW - 16, charBoxH - 16);
+          ctx.restore();
+        } catch (err) {
+          console.warn('캔버스 이미지 렌더링 주의:', err);
+        }
+      } else {
+        ctx.fillStyle = '#64748b';
+        ctx.textAlign = 'center';
+        ctx.font = '700 17px "Apple SD Gothic Neo", sans-serif';
+        ctx.fillText('교사 설정에서', charBoxX + charBoxW / 2, charBoxY + charBoxH / 2 - 12);
+        ctx.fillText('몽련이 독도_2.jpg를', charBoxX + charBoxW / 2, charBoxY + charBoxH / 2 + 12);
+        ctx.fillText('선택해 주세요', charBoxX + charBoxW / 2, charBoxY + charBoxH / 2 + 36);
+      }
+
+      ctx.textAlign = 'center';
+      ctx.fillStyle = pal.text;
+      ctx.font = '800 20px "Apple SD Gothic Neo", sans-serif';
+      ctx.fillText('🌸 몽련이와 독도여행 🌸', charBoxX + charBoxW / 2, charBoxY + charBoxH + 38);
+    }
+
+    function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
+      ctx.beginPath();
+      ctx.moveTo(x + radius, y);
+      ctx.lineTo(x + width - radius, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+      ctx.lineTo(x + width, y + height - radius);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+      ctx.lineTo(x + radius, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+      ctx.lineTo(x, y + radius);
+      ctx.quadraticCurveTo(x, y, x + radius, y);
+      ctx.closePath();
+      if (fill) ctx.fill();
+      if (stroke) ctx.stroke();
+    }
+
+    function drawImageCover(ctx, img, x, y, w, h) {
+      const imgRatio = img.width / img.height;
+      const targetRatio = w / h;
+      let sx = 0, sy = 0, sw = img.width, sh = img.height;
+      if (imgRatio > targetRatio) {
+        sw = img.height * targetRatio;
+        sx = (img.width - sw) / 2;
+      } else {
+        sh = img.width / targetRatio;
+        sy = (img.height - sh) / 2;
+      }
+      ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
+    }
+
+    function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+      const words = text.split('');
+      let line = '';
+      let lineCount = 0;
+      for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n];
+        const metrics = ctx.measureText(testLine);
+        if (metrics.width > maxWidth && n > 0) {
+          ctx.fillText(line, x, y);
+          line = words[n];
+          y += lineHeight;
+          lineCount++;
+          if (lineCount >= 3) break;
+        } else {
+          line = testLine;
+        }
+      }
+      ctx.fillText(line, x, y);
+    }
+
+    async function savePhotoToTablet() {
+      renderFourCutCanvas();
+      const canvas = document.getElementById('photoCanvas');
+      const fileName = `몽련이_독도여행_인생네컷_${currentStudent.studentId || '독도'}.png`;
+
+      try {
+        const dataUrl = canvas.toDataURL('image/png');
+        updateLastRecordPhotoStatus('촬영및저장완료');
+
+        if (navigator.canShare && window.File) {
+          const res = await fetch(dataUrl);
+          const blob = await res.blob();
+          const file = new File([blob], fileName, { type: 'image/png' });
+          if (navigator.canShare({ files: [file] })) {
+            try {
+              await navigator.share({
+                title: '몽련이와 함께 독도여행 인생네컷',
+                text: '5일간 열리는 작은 독도박물관 기념 사진',
+                files: [file]
+              });
+              return;
+            } catch (shareErr) {
+              // 공유 취소 시 파일 다운로드로 진행
+            }
+          }
+        }
+
+        const a = document.createElement('a');
+        a.href = dataUrl;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      } catch (err) {
+        alert('아이패드 보안 정책으로 인해, 메인 화면의 캐릭터 박스를 한 번 터치하여 [몽련이 독도_2.jpg] 파일을 직접 선택해 주시면 즉시 저장이 가능합니다!');
+      }
+    }
+
+    function openImagePreviewModal() {
+      renderFourCutCanvas();
+      const canvas = document.getElementById('photoCanvas');
+      try {
+        document.getElementById('longPressPreviewImg').src = canvas.toDataURL('image/png');
+        openModal('imagePreviewModal');
+      } catch (err) {
+        alert('메인 화면의 캐릭터 박스를 터치하여 [몽련이 독도_2.jpg] 파일을 한 번 선택해 주세요.');
+      }
+    }
+
+    /**************************************************************
+     * 6. 모달 제어 및 초기 실행
+     **************************************************************/
+    function openModal(id) {
+      document.getElementById(id).classList.add('open');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initMongryeoniCharacter();
+      updateRecordsUI();
+      document.getElementById('autoCsvToggle').checked = isAutoCsvEnabled();
+      setTimeout(renderFourCutCanvas, 300);
+    });
+  </script>
+</body>
+</html>
